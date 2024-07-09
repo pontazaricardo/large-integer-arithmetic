@@ -34,7 +34,14 @@ else()
     message(FATAL_ERROR "Unsupported architecture")
 endif()
 
-add_library(${PROJECT_NAME} STATIC ${SRC} ${SRCP})
+#add_library(${PROJECT_NAME} STATIC ${SRC} ${SRCP})
+#
 
-target_compile_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:DEBUG>:${DEBUG_FLAGS}>")
-target_compile_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:RELEASE>:${RELEASE_FLAGS}>")
+#target_compile_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:RELEASE>:${RELEASE_FLAGS}>")
+
+message(STATUS "Creating executable: ${TEST_APP}")
+
+add_executable(executable ${SRC} ${SRCP})
+
+target_compile_options(executable PUBLIC "$<$<CONFIG:DEBUG>:${COMMON_FLAGS}>")
+
