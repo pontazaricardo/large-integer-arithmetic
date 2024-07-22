@@ -41,6 +41,7 @@ endif()
 
 message(STATUS "Creating executable: ${TEST_APP}")
 
+
 add_executable(executable ${SRC} ${SRCP})
 
 target_compile_options(executable PUBLIC "$<$<CONFIG:DEBUG>:${COMMON_FLAGS}>")

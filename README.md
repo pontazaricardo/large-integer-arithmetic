@@ -5,3 +5,5 @@ In order to generate the disassembly, run the command
 ```
 $ objdump -d ./executable >> executable_disassembly.asm
 ```
+
+uint64x2_t vpaddlq_u32(uint32x4_t a)
