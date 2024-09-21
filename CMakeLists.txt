@@ -10,7 +10,7 @@ set(CMAKE_C_STANDARD 11)
 set(DEBUG_FLAGS -O3)
 set(RELEASE_FLAGS -Wextra)
 #set(COMMON_FLAGS -Wall -fPIC -march=native -mavx2)
-set(COMMON_FLAGS -Wall -march=native -mcpu=native -mtune=native -O3)
+set(COMMON_FLAGS -Wall -march=native -mcpu=native -mtune=native )
 
 #message("Apple: " ${APPLE})
 message(STATUS "Detected architecture: " ${CMAKE_SYSTEM_PROCESSOR})

@@ -330,6 +330,27 @@ void __attribute__((noinline)) addition_256bits_carrying_02(uint64_t output[5],c
 }
 
 
+void __attribute__((noinline)) substraction_pointwise(uint32_t output[17], const uint64_t input01[2], const uint64_t input02[2]){
+    uint64x2_t input01_words_padded; //We combine two 64x1_t words (low - high) into a single 64x2_t word (high - low) - https://developer.arm.com/architectures/instruction-sets/intrinsics/vcombine_u64
+    uint64x2_t input02_words_padded; //We combine two 64x1_t words (low - high) into a single 64x2_t word (high - low) - https://developer.arm.com/architectures/instruction-sets/intrinsics/vcombine_u64
+
+    input01_words_padded = vld1q_u64(&input01[0]);  // Function is of the form vld1q_u64
+    input02_words_padded = vld1q_u64(&input02[0]);  // Function is of the form vld1q_u64
+
+    uint64x2_t addition_in_parallel;
+
+    addition_in_parallel = vsubq_u64(input01_words_padded, input02_words_padded);
+
+
+    uint32x4_t addition_in_parallel_result_recast_reversed;
+
+    addition_in_parallel_result_recast_reversed=vreinterpretq_u32_u64(addition_in_parallel);
+
+
+
+
+}
+
 void test_addition(){
     uint64_t arrayToTest[4];
 
@@ -341,6 +362,20 @@ void test_addition(){
     uint64_t expectedOutput[5]; // One extra word
 
     addition_256bits_carrying_02(expectedOutput, arrayToTest, arrayToTest);
+
+    uint64_t arrayToTest01[4];
+    //arrayToTest01[0] = (uint64_t)0b0000000000000000000000000000000001111111111111111111111111111111;
+    //arrayToTest01[1] = (uint64_t)0b0000000000000000000000000000000001111111111111111111111111111111;
+    arrayToTest01[0] = (uint64_t)0b0;
+    arrayToTest01[1] = (uint64_t)0b0;
+
+
+    uint64_t arrayToTest02[4];
+    arrayToTest02[0] = (uint64_t)0b0000000000000000000000000000000011111111111111111111111111111111;
+    arrayToTest02[1] = (uint64_t)0b0000000000000000000000000000000011111111111111111111111111111111;
+
+    substraction_pointwise(expectedOutput, arrayToTest01, arrayToTest02);
+
 
     printf("Carry on: ");
     printbits_64(expectedOutput[0]);
